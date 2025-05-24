@@ -1,0 +1,222 @@
+//
+#ifndef_Simulation_HPP
+#define_Simulation_HPP
+#include "DS1 JobList.hpp"      // type job Type, class JobList
+#include "DS1JobQueue.hpp"      // class JobQueue
+#include "DS1AnsList.hpp"       // class AnsList
+
+#ifndef JobList HPP
+#define_JobList_HPP
+#include <iostream>             // cout, endl
+#include <fstream>              // open, is open
+#include <string>               // string
+#include <vector>               // vector
+#include <cstdlib>              // atoi, system
+#include <iomanip>              // setw, setprecision
+#include <ctime>                // clock, CLOCKS PER SEC
+
+#ifndef JobQueue HPP
+#define JobQueue HPP
+
+#ifndef AnsList HPP
+#define _AnsList_HPP
+
+class Simulation (
+    JobList jobs;               // a list of jobs
+    AnsList answers;            // a set of answers
+    JobQueue<jobType> **allQ;   // a set of queues
+    int qNum;                   // number of queues
+    
+    // ***** The above are private data members *****
+
+    void delQ(int);             // declaration: delete an old job from a queue
+    void updateQ(int, int);     // declaration: update each queue
+    void finishQ();             // declaration: finish the remaining jobs in queues
+    
+    // ***** The above are private methods *****
+    
+public:
+    // copy constructor
+    Simulation(JobList aList, int N): jobs(aList), qNum(N) {
+    } //end constructor
+    
+    // destructor
+    ~Simulation() {} // end Destructor
+    
+    void SQF();                 // declaration: shortest queue first
+}; // end Simulation
+#endif //_Simulation_HPP
+
+
+// __________ Header file for Job List __________ 
+
+typedef struct jT {
+    int OID;            // order identifier
+    int arrival;        // arrival time
+    int duration;       // job duration
+    int timeout;        // expire time
+} jobType;
+
+// ***** The above are data structures globally available *****
+
+class JobList (
+    vector <jobType> aList;         // list of jobs with four columns
+    string fileID;                  // file identifier
+    
+    // ***** The above are private data members *****
+    
+    // definition: initial set up
+    void reset() {} //end reset
+    
+    // declaration: display a job on screen
+    void showJob(jobType&);
+    
+    // declaration: sort all by arrival time
+    void sortByArrival);
+    
+    // declaration: write all as a file
+    void putall();
+    
+    // declaration: output time on screen
+    void showTime();
+    
+    // declaration: take a look at the next job
+    // get the next job without removal
+    void nextJobCheck(jobType &) {}
+    #自行完成定義
+    
+    // ***** The above are private methods *****
+    
+public:
+    JobList() { reset(); }          // constructor for initialization
+    
+    ~JobList() { reset(); }         // destructor for initialization
+    
+    //check whether it is empty or not
+    bool isEmpty() {} // isEmpty()
+    
+    // ***** The above are primitive methods publicly available *****
+    
+    // declaration: read all from a file
+    bool getAll(string); 
+    
+    // declaration: read all from a file and sort them
+    bool getsorted(); 
+    
+    // declaration: get & remove the next job
+    void nextJob(jobType &); 
+     
+}; // end JobList
+#endif //_JobList_HPP
+
+    
+// _____ Header file for Job Quene _____
+
+class JobQueue (
+    int *cA;            // circular array
+    int qFront, qBack;  // head & tail of queue
+    int qSize, qMax;    // current size & max size of queue
+    
+    // ***** The above are private data members *****
+    
+    // move to the next position in queue
+    int next(int idx) {} // next()
+    // ***** The above are private methods *****
+    
+public:
+    int avail;          // the time when CPU is available
+    
+    // ***** The above are public data members *****
+    
+    // constructor of no-space queue
+    JobQueue():cA(NULL), qFront(0), qBack(0),
+                qSize(0), qMax(0), avail(0) {}
+    
+    // constructor of an empty queue
+    ??JobQueue<T>(int maxs):qFront(0), qSize(0), avail(0) {
+    }//end constructor
+    
+    // get the current queue length
+    int length() const {}
+    
+    // check whether it is empty
+    bool isEmpty() const {}
+    
+    //check whether it is full
+    bool isFull() const {}
+    
+    // append a new element
+    void enQueue(T &); 
+    
+    // get the first element
+    void getFront(T &); 
+    
+    // drop the first element
+    void deQueue();
+    
+    // get & drop the first element
+    void deQueue(T&); 
+    
+    // clean up
+    void clearQ(); 
+    
+    // destructor 
+    ~JobQueue() {} // end destructor
+); //end JobQueue
+#endif //_JobQueue_HPP
+
+
+// _____ Header file for Answer List _____
+
+class AnsList (
+    typedef struct aT {} abortType;
+    
+    typedef struct dT {} doneType
+    
+    vector<abortType> abortJobs;    // list of aborted jobs with three columns
+    
+    vector<doneType> doneJobs;      // list of done jobs with three columns
+    
+    float avgDelay;                 // average delay
+    
+    float successRate;              // percentage of done jobs
+    
+    // ***** The above are private data members *****
+    
+    // declaration: display abort jobs on screen
+    void showAbortJobs(string);
+    
+    // declaration: display done jobs on screen
+    void showDoneJobs(string);
+    
+    // declaration: compute the statistics
+    void computeStat();
+    
+    // declaration: display statistics on screen
+    void showStat();
+    
+    // ***** The above are private methods *****
+
+public:
+    // constructor for initialization
+    AnsList(): avgDelay(0.0), successRate(0.0) {}
+
+    // destructor for initialization
+    ~AnsList(){}
+    
+    // declaration: display all on screen
+    void showAll(string); 
+    
+    // declaration: add one aborted job
+    void addAbortJob(int, int, int, int);  
+    
+    // declaration: add one done job
+    void addDoneJob(int, int, int, int); 
+    
+    // ***** The above are primitive methods *****
+    
+    // declaration: write all as a file
+    void putAll(string, string);
+}; // end AnsList
+#endif //_AnsList_HPP
+    
